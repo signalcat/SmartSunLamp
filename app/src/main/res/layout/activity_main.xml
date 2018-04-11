@@ -16,7 +16,7 @@
         android:layout_marginStart="63dp"
         android:layout_toEndOf="@+id/button_off"
         android:layout_toRightOf="@+id/button_off"
-        android:text="OFF" />
+        android:text="On" />
 
     <Button
         android:id="@+id/button_off"
@@ -28,6 +28,6 @@
         android:layout_marginBottom="117dp"
         android:layout_marginLeft="60dp"
         android:layout_marginStart="60dp"
-        android:text="On" />
+        android:text="Off" />
 
 </RelativeLayout>
