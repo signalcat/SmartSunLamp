@@ -20,6 +20,7 @@ import signalcat.github.com.smartsunlamp.Models.Lamp;
 
 public class MainActivity extends AppCompatActivity
 {
+    final String BASE_URL = "http://192.168.1.12/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,32 +28,42 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final String BASE_URL = "http://192.168.1.137:2015/";
-
         Button btnOn = findViewById(R.id.button_on);
+        Button btnOff = findViewById(R.id.button_off);
         btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncHttpClient client = new AsyncHttpClient();
-                client.get(
-                        BASE_URL,
-                        new TextHttpResponseHandler()
-                        {
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable)
-                            {
-                                Log.d("HttpResponse", "Failed");
-                            }
-
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, String response)
-                            {
-//                        Gson gson = new GsonBuilder().create();
-//                        Lamp lamp = gson.fromJson(response, Lamp.class);
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                sendCmd("on");
             }
         });
+
+        btnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCmd("off");
+            }
+        });
+    }
+
+    public void sendCmd(String cmd){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(
+                BASE_URL + cmd,
+                new JsonHttpResponseHandler()
+                {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable)
+                    {
+                        Log.d("HttpResponse", "Failed");
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response)
+                    {
+//                        Gson gson = new GsonBuilder().create();
+//                        Lamp lamp = gson.fromJson(response, Lamp.class);
+                        Toast.makeText(getApplicationContext(), "Get response!", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
     }
 }
