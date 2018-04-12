@@ -20,7 +20,7 @@ import signalcat.github.com.smartsunlamp.Models.Lamp;
 
 public class LampHttpResponseHandler extends JsonHttpResponseHandler
 {
-    public Lamp lamp;
+    private Lamp lamp;
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable)
     {
@@ -29,19 +29,16 @@ public class LampHttpResponseHandler extends JsonHttpResponseHandler
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response)
     {
-        try{
-            //JSONObject lampObject = response;
-            //String brightness = lampObject.getString("brightness");
-            lamp.fromJson(response);
-            Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JSONObject lampObject = response;
+        lamp.fromJSON(lampObject);
+
+        Log.d("TIME", String.valueOf(lamp.getTime()));
+
     }
 
-    public LampHttpResponseHandler() {
+    public LampHttpResponseHandler(Lamp lamp) {
         super();
-        lamp = new Lamp();
+        this.lamp = lamp;
     }
 
 }

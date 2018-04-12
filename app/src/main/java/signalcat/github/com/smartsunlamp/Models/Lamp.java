@@ -6,6 +6,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  * Lamp class creates objects that parse the JSON response
  * from the circuit board
@@ -13,7 +17,7 @@ import org.json.JSONObject;
 
 public class Lamp {
 
-    private long time;
+    private Date time;
     private long alarm;
     private long alarmHour;
     private long alarmMinute;
@@ -23,7 +27,43 @@ public class Lamp {
     private long remainSecs;
     private long bootTime;
 
-    public long getTime()
+    public void setTime(long time) {
+        this.time = new Date(time * 1000);
+    }
+
+    public void setAlarm(long alarm) {
+        this.alarm = alarm;
+    }
+
+    public void setAlarmHour(long alarmHour) {
+        this.alarmHour = alarmHour;
+    }
+
+    public void setAlarmMinute(long alarmMinute) {
+        this.alarmMinute = alarmMinute;
+    }
+
+    public void setFadeInMinutes(long fadeInMinutes) {
+        this.fadeInMinutes = fadeInMinutes;
+    }
+
+    public void setBrightness(long brightness) {
+        this.brightness = brightness;
+    }
+
+    public void setExpDrive(String expDrive) {
+        this.expDrive = expDrive;
+    }
+
+    public void setRemainSecs(long remainSecs) {
+        this.remainSecs = remainSecs;
+    }
+
+    public void setBootTime(long bootTime) {
+        this.bootTime = bootTime;
+    }
+
+    public Date getTime()
     {
         return time;
     }
@@ -65,12 +105,26 @@ public class Lamp {
 
     public long getBootTime() { return bootTime; }
 
-    public void fromJson(JSONObject jsonObject) throws JSONException {
-        brightness = jsonObject.getLong("brightness");
+    public void fromJSON(JSONObject lampObject) {
+        try {
+            time = new Date(lampObject.getLong("time") * 1000);
+            Log.d("TIME", time.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+//        private long alarm;
+//        private long alarmHour;
+//        private long alarmMinute;
+//        private long fadeInMinutes;
+//        private long brightness;
+//        private String expDrive;
+//        private long remainSecs;
+//        private long bootTime;
+
     public Lamp() {
-        time = 0;
+        time = new Date(0L);
         alarm = 0;
         alarmHour = 0;
         alarmMinute = 0;
