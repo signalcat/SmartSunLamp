@@ -13,18 +13,22 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import signalcat.github.com.smartsunlamp.Models.Lamp;
+import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
 public class MainActivity extends AppCompatActivity
 {
-    final String BASE_URL = "http://192.168.1.12/";
+    final String BASE_URL = "http://192.168.1.118/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,23 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     public void sendCmd(String cmd){
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(
-                BASE_URL + cmd,
-                new JsonHttpResponseHandler()
-                {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable)
-                    {
-                        Log.d("HttpResponse", "Failed");
-                    }
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response)
-                    {
-//                        Gson gson = new GsonBuilder().create();
-//                        Lamp lamp = gson.fromJson(response, Lamp.class);
-                        Toast.makeText(getApplicationContext(), "Get response!", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+        LampHttpResponseHandler handler = new LampHttpResponseHandler();
+        client.get(BASE_URL + cmd, handler);
     }
 }
