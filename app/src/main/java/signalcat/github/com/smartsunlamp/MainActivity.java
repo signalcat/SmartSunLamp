@@ -17,9 +17,13 @@ import cz.msebera.android.httpclient.Header;
 import signalcat.github.com.smartsunlamp.Models.Lamp;
 import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
+/**
+ * This is the main screen of the smart sun lamp.
+ *
+ */
 public class MainActivity extends AppCompatActivity
 {
-    final String BASE_URL = "http://192.168.1.12/";
+    final String BASE_URL = "http://192.168.1.137/";
     private Lamp lamp;
 
     @Override
@@ -28,10 +32,12 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         lamp = new Lamp();
+
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
+
+        // When On button is pressed, send on command
         btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // When Off button is pressed, send off command
         btnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +54,10 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * This function send out commands through http request
+     * @param cmd different commands to control the lamp
+     */
     public void sendCmd(String cmd){
         AsyncHttpClient client = new AsyncHttpClient();
         LampHttpResponseHandler handler = new LampHttpResponseHandler(lamp);

@@ -11,28 +11,32 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Lamp class creates objects that parse the JSON response
- * from the circuit board
+ * Lamp class parses JSON response and store date
+ *
  */
 
 public class Lamp {
 
+    private Date bootTime;
     private Date time;
-    private long alarm;
+    private Date alarm;
     private long alarmHour;
     private long alarmMinute;
     private long fadeInMinutes;
     private long brightness;
     private String expDrive;
     private long remainSecs;
-    private long bootTime;
+
+    public void setBootTime(long bootTime) {
+        this.bootTime = new Date(bootTime * 1000);
+    }
 
     public void setTime(long time) {
         this.time = new Date(time * 1000);
     }
 
     public void setAlarm(long alarm) {
-        this.alarm = alarm;
+        this.alarm = new Date(alarm * 1000);
     }
 
     public void setAlarmHour(long alarmHour) {
@@ -59,16 +63,14 @@ public class Lamp {
         this.remainSecs = remainSecs;
     }
 
-    public void setBootTime(long bootTime) {
-        this.bootTime = bootTime;
-    }
+    public Date getBootTime() { return bootTime; }
 
     public Date getTime()
     {
         return time;
     }
 
-    public long getAlarm()
+    public Date getAlarm()
     {
         return alarm;
     }
@@ -103,36 +105,51 @@ public class Lamp {
         return remainSecs;
     }
 
-    public long getBootTime() { return bootTime; }
-
-    public void fromJSON(JSONObject lampObject) {
-        try {
-            time = new Date(lampObject.getLong("time") * 1000);
-            Log.d("TIME", time.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-//        private long alarm;
-//        private long alarmHour;
-//        private long alarmMinute;
-//        private long fadeInMinutes;
-//        private long brightness;
-//        private String expDrive;
-//        private long remainSecs;
-//        private long bootTime;
-
     public Lamp() {
+        bootTime = new Date(0L);
         time = new Date(0L);
-        alarm = 0;
+        alarm = new Date(0L);
         alarmHour = 0;
         alarmMinute = 0;
         fadeInMinutes = 0;
         brightness = 0;
         expDrive = "";
         remainSecs = 0;
-        bootTime = 0;
     }
 
+    // Parse JSON object
+    public void fromJSON(JSONObject lampObject) {
+        try {
+
+            bootTime = new Date(lampObject.getLong("bootTime") * 1000);
+            Log.d("BOOTTIME", bootTime.toString());
+
+            time = new Date(lampObject.getLong("time") * 1000);
+            Log.d("TIME", time.toString());
+
+            alarm = new Date(lampObject.getLong("alarm") * 1000);
+            Log.d("ALARM", alarm.toString());
+
+            alarmHour = lampObject.getLong("alarmHour");
+            Log.d("ALARMHOUR", String.valueOf(alarmHour));
+
+            alarmMinute = lampObject.getLong("alarmMinute");
+            Log.d("ALARMMINITE", String.valueOf(alarmMinute));
+
+            fadeInMinutes = lampObject.getLong("fadeInMinutes");
+            Log.d("FADEINMINUTES", String.valueOf(fadeInMinutes));
+
+            brightness = lampObject.getLong("brightness");
+            Log.d("BRIGHTNESS", String.valueOf(brightness));
+
+            expDrive = lampObject.getString("expDrive");
+            Log.d("EXPDRIVE", expDrive);
+
+            remainSecs = lampObject.getLong("remainingSecondsInTransition");
+            Log.d("REMAINSECS", String.valueOf(remainSecs));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
