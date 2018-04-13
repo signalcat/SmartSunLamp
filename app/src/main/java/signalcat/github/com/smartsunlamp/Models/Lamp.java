@@ -122,31 +122,31 @@ public class Lamp {
         try {
 
             bootTime = new Date(lampObject.getLong("bootTime") * 1000);
-            Log.d("BOOTTIME", bootTime.toString());
+            //Log.d("BOOTTIME", bootTime.toString());
 
             time = new Date(lampObject.getLong("time") * 1000);
-            Log.d("TIME", time.toString());
+            //Log.d("TIME", time.toString());
 
             alarm = new Date(lampObject.getLong("alarm") * 1000);
-            Log.d("ALARM", alarm.toString());
+            //Log.d("ALARM", alarm.toString());
 
             alarmHour = lampObject.getLong("alarmHour");
-            Log.d("ALARMHOUR", String.valueOf(alarmHour));
+            //Log.d("ALARMHOUR", String.valueOf(alarmHour));
 
             alarmMinute = lampObject.getLong("alarmMinute");
-            Log.d("ALARMMINITE", String.valueOf(alarmMinute));
+            //Log.d("ALARMMINITE", String.valueOf(alarmMinute));
 
             fadeInMinutes = lampObject.getLong("fadeInMinutes");
-            Log.d("FADEINMINUTES", String.valueOf(fadeInMinutes));
+            //Log.d("FADEINMINUTES", String.valueOf(fadeInMinutes));
 
             brightness = lampObject.getLong("brightness");
-            Log.d("BRIGHTNESS", String.valueOf(brightness));
+            //Log.d("BRIGHTNESS", String.valueOf(brightness));
 
             expDrive = lampObject.getString("expDrive");
-            Log.d("EXPDRIVE", expDrive);
+            //Log.d("EXPDRIVE", expDrive);
 
             remainSecs = lampObject.getLong("remainingSecondsInTransition");
-            Log.d("REMAINSECS", String.valueOf(remainSecs));
+            //Log.d("REMAINSECS", String.valueOf(remainSecs));
 
         } catch (JSONException e) {
             e.printStackTrace();

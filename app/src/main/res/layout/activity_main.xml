@@ -30,4 +30,24 @@
         android:layout_marginStart="60dp"
         android:text="Off" />
 
+    <SeekBar
+        android:id="@+id/bar_brightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button_on"
+        android:layout_alignLeft="@+id/button_off"
+        android:layout_alignRight="@+id/button_on"
+        android:layout_alignStart="@+id/button_off"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_brightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bar_brightness"
+        android:layout_alignLeft="@+id/bar_brightness"
+        android:layout_alignStart="@+id/bar_brightness"
+        android:layout_marginBottom="44dp"
+        android:text="brightness" />
+
 </RelativeLayout>

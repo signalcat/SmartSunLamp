@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -23,8 +26,15 @@ import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHan
  */
 public class MainActivity extends AppCompatActivity
 {
-    final String BASE_URL = "http://192.168.1.137/";
+    // Limits how often the seekbar sends commands to the wakeup light
+    // in milliseconds.
+    final static int SEND_THRESHOLD = 50;
+    final String BASE_URL = "http://192.168.1.148/";
     private Lamp lamp;
+    // Brightness adjustment bar
+    SeekBar seekBar;
+
+    long lastTimeCmdWasSent = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,14 +44,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         lamp = new Lamp();
 
+        // Fetch all views
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
+        final TextView tvBrightness = findViewById(R.id.tv_brightness);
 
         // When On button is pressed, send on command
         btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCmd("on");
+                seekBar.setProgress(100);
+               //sendCmd("on");
             }
         });
 
@@ -49,9 +62,40 @@ public class MainActivity extends AppCompatActivity
         btnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendCmd("off");
+                seekBar.setProgress(0);
+                //sendCmd("off");
             }
         });
+
+        // Adjust the brightness level
+        seekBar = findViewById(R.id.bar_brightness);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressVal = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressVal = progress;
+                tvBrightness.setText("Current Progress:" + progressVal);
+
+                if (lastTimeCmdWasSent + SEND_THRESHOLD < System.currentTimeMillis()) {
+                    // Set the brightness level
+                    sendCmd("/LED/" + progressVal + "/00");
+                    lastTimeCmdWasSent = System.currentTimeMillis();
+                    //Log.d("randomStuff", "Command was sent");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     /**
