@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
     // Limits how often the seekbar sends commands to the wakeup light
     // in milliseconds.
     final static int SEND_THRESHOLD = 50;
-    final String BASE_URL = "http://192.168.1.148/";
+    final String BASE_URL = "http://192.168.1.12/";
     private Lamp lamp;
     // Brightness adjustment bar
     SeekBar seekBar;
