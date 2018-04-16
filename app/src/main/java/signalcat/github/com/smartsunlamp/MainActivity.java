@@ -1,22 +1,17 @@
 package signalcat.github.com.smartsunlamp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
 import signalcat.github.com.smartsunlamp.Models.Lamp;
 import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
@@ -33,6 +28,9 @@ public class MainActivity extends AppCompatActivity
     private Lamp lamp;
     // Brightness adjustment bar
     SeekBar seekBar;
+    // Light bulb image brightness indicator
+    private ImageView imageView_bulb;
+    private Bitmap bitmap;
 
     long lastTimeCmdWasSent = 0;
 
@@ -48,6 +46,15 @@ public class MainActivity extends AppCompatActivity
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
         final TextView tvBrightness = findViewById(R.id.tv_brightness);
+
+        // Create a bitmap object and apply it to imageView
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light_bulb);
+        imageView_bulb = findViewById(R.id.imageView_lightBulb);
+        imageView_bulb.setImageBitmap(bitmap);
+
+        // Initialize the image processing class for the lightBulb
+        final ImageThread imageThread = new ImageThread(imageView_bulb, bitmap);
+        imageThread.start();
 
         // When On button is pressed, send on command
         btnOn.setOnClickListener(new View.OnClickListener() {
@@ -77,11 +84,15 @@ public class MainActivity extends AppCompatActivity
                 progressVal = progress;
                 tvBrightness.setText("Current Progress:" + progressVal);
 
+                //imageThread.adjustBrightness(progressVal);
+
                 if (lastTimeCmdWasSent + SEND_THRESHOLD < System.currentTimeMillis()) {
-                    // Set the brightness level
+                    // Set the brightness
                     sendCmd("/LED/" + progressVal + "/00");
                     lastTimeCmdWasSent = System.currentTimeMillis();
                     //Log.d("randomStuff", "Command was sent");
+                    imageThread.adjustBrightness(progressVal);
+
                 }
             }
 
@@ -107,4 +118,5 @@ public class MainActivity extends AppCompatActivity
         LampHttpResponseHandler handler = new LampHttpResponseHandler(lamp);
         client.get(BASE_URL + cmd, handler);
     }
+
 }
