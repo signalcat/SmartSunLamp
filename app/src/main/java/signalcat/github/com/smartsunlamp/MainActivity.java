@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     // in milliseconds.
     final static int SEND_THRESHOLD = 50;
     final String BASE_URL = "http://192.168.1.12/";
+//    final String BASE_URL = "http://192.168.1.118/";
     private Lamp lamp;
     // Brightness adjustment bar
     SeekBar seekBar;
@@ -34,27 +36,38 @@ public class MainActivity extends AppCompatActivity
 
     long lastTimeCmdWasSent = 0;
 
+    AsyncHttpClient client = new AsyncHttpClient();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         lamp = new Lamp();
+        sendCmd("status", new Runnable(){
+            @Override
+            public void run() {
+                Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
+                seekBar.setProgress((int)lamp.getBrightness());
+            }
+        });
+
 
         // Fetch all views
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
         final TextView tvBrightness = findViewById(R.id.tv_brightness);
 
-        // Create a bitmap object and apply it to imageView
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light_bulb);
-        imageView_bulb = findViewById(R.id.imageView_lightBulb);
-        imageView_bulb.setImageBitmap(bitmap);
-
-        // Initialize the image processing class for the lightBulb
-        final ImageThread imageThread = new ImageThread(imageView_bulb, bitmap);
-        imageThread.start();
+//        // Create a bitmap object and apply it to imageView
+//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light_bulb);
+//        imageView_bulb = findViewById(R.id.imageView_lightBulb);
+//        imageView_bulb.setImageBitmap(bitmap);
+//
+//        // Initialize the image processing class for the lightBulb
+//        final ImageThread imageThread = new ImageThread(imageView_bulb, bitmap);
+//        imageThread.start();
 
         // When On button is pressed, send on command
         btnOn.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                     sendCmd("/LED/" + progressVal + "/00");
                     lastTimeCmdWasSent = System.currentTimeMillis();
                     //Log.d("randomStuff", "Command was sent");
-                    imageThread.adjustBrightness(progressVal);
+//                    imageThread.adjustBrightness(progressVal);
 
                 }
             }
@@ -113,10 +126,13 @@ public class MainActivity extends AppCompatActivity
      * This function send out commands through http request
      * @param cmd different commands to control the lamp
      */
-    public void sendCmd(String cmd){
-        AsyncHttpClient client = new AsyncHttpClient();
-        LampHttpResponseHandler handler = new LampHttpResponseHandler(lamp);
+    public void sendCmd(String cmd, Runnable runnable){
+        LampHttpResponseHandler handler = new LampHttpResponseHandler(lamp, runnable);
         client.get(BASE_URL + cmd, handler);
+    }
+
+    public void sendCmd(String cmd){
+        sendCmd(cmd, null);
     }
 
 }
