@@ -1,7 +1,12 @@
 package signalcat.github.com.smartsunlamp;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.loopj.android.http.AsyncHttpClient;
 import signalcat.github.com.smartsunlamp.Models.Lamp;
 import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
@@ -23,8 +30,8 @@ public class MainActivity extends AppCompatActivity
     // Limits how often the seekbar sends commands to the wakeup light
     // in milliseconds.
     final static int SEND_THRESHOLD = 50;
-    final String BASE_URL = "http://192.168.1.12/";
-//    final String BASE_URL = "http://192.168.1.118/";
+//    final String BASE_URL = "http://192.168.1.12/";
+    final String BASE_URL = "http://192.168.1.118/";
     private Lamp lamp;
     // Brightness adjustment bar
     SeekBar seekBar;
@@ -42,6 +49,9 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Check if network is connected and display info
+        displayNetworkInfo();
 
         lamp = new Lamp();
         sendCmd("status", new Runnable(){
@@ -142,6 +152,50 @@ public class MainActivity extends AppCompatActivity
     public void sendCmd(String cmd){
         sendCmd(cmd, null);
     }
+
+    /**
+     * Check network is connected and display toast message
+     */
+    public void displayNetworkInfo() {
+        Toast.makeText(getApplicationContext(), checkWhatNetwork(), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Check if there any network connected. If wifi is connected, return SSID.
+     * @return SSID of the current wifi, or other info
+     */
+    private String checkWhatNetwork(){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        // If there is an active network, check if it's wifi network
+        if (activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting()) {
+            // If it's wifi network, return the SSID
+            if (activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                WifiManager wifiManager =
+                        (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                return wifiInfo.getSSID();
+            } else {
+                return "Mobile date";
+            }
+        }
+        return "Network unavailable";
+    }
+
+//    /**
+//     * Check if connected to the same wifi as the lamp
+//     * @return
+//     */
+//    private String isSameWifi() {
+//        WifiManager wifiManager =
+//                (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+//        if (wifiInfo != null && wifiInfo.getSSID() != null) {
+//            return wifiInfo.getSSID();
+//        }
+//        return "No Wifi";
+//    }
 }
 
 
