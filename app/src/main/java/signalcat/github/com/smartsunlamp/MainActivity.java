@@ -1,5 +1,5 @@
 package signalcat.github.com.smartsunlamp;
-
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.loopj.android.http.AsyncHttpClient;
-
 import signalcat.github.com.smartsunlamp.Models.Lamp;
 import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
@@ -58,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         // Fetch all views
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
+        Button btnToSun = findViewById(R.id.btn_toSun);
         final TextView tvBrightness = findViewById(R.id.tv_brightness);
 
 //        // Create a bitmap object and apply it to imageView
@@ -84,6 +83,15 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 seekBar.setProgress(0);
                 //sendCmd("off");
+            }
+        });
+
+        // Go to the sunActivity
+        btnToSun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, SunActivity.class);
+                startActivity(i);
             }
         });
 
@@ -134,5 +142,6 @@ public class MainActivity extends AppCompatActivity
     public void sendCmd(String cmd){
         sendCmd(cmd, null);
     }
-
 }
+
+

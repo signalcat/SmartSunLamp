@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SmartSunLamp</string>
+    <string name="title_activity_sun">SunActivity</string>
 </resources>
