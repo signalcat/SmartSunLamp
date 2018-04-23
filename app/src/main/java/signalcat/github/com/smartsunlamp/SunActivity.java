@@ -22,21 +22,26 @@ public class SunActivity extends AppCompatActivity {
 
         sunTime = new SunTime();
         Button btnGetSunTime = findViewById(R.id.btn_getSunTime);
-        //final TextView tvSunRiseTime = findViewById(R.id.tv_sunRiseTime);
+        final TextView tvSunRiseTime = findViewById(R.id.tv_sunRiseTime);
 
 
         btnGetSunTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSunTime();
+                getSunTime("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", new Runnable() {
+                    @Override
+                    public void run() {
+                        tvSunRiseTime.setText(sunTime.getSunRise());
+                    }
+                });
             }
         });
 
     }
 
-    public void getSunTime(){
-        SunHttpResponseHandler handler = new SunHttpResponseHandler(sunTime);
-        client.get("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", handler);
+    public void getSunTime(String url, Runnable runnable){
+        SunHttpResponseHandler handler = new SunHttpResponseHandler(sunTime, runnable);
+        client.get(url, handler);
     }
 
 }

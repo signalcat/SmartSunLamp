@@ -15,6 +15,7 @@ import signalcat.github.com.smartsunlamp.Models.SunTime;
 
 public class SunHttpResponseHandler extends JsonHttpResponseHandler {
     private SunTime sunTime;
+    private Runnable runnable;
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable)
@@ -26,11 +27,15 @@ public class SunHttpResponseHandler extends JsonHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
         JSONObject sunObject = response;
         sunTime.fromJSON(sunObject);
+        if (runnable != null) {
+            runnable.run();
+        }
     }
 
-    public SunHttpResponseHandler(SunTime sunTime){
+    public SunHttpResponseHandler(SunTime sunTime, Runnable runnable){
         super();
         this.sunTime = sunTime;
+        this.runnable = runnable;
     }
 }
 
