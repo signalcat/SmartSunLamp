@@ -157,31 +157,35 @@ public class MainActivity extends AppCompatActivity
      * Check network is connected and display toast message
      */
     public void displayNetworkInfo() {
-        Toast.makeText(getApplicationContext(), checkWhatNetwork(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getNetworkName(), Toast.LENGTH_LONG).show();
     }
 
     /**
-     * Check if there any network connected. If wifi is connected, return SSID.
-     * @return SSID of the current wifi, or other info
+     * Returns the network the phone is currently connected to.
+     *
+     * @return "1 Network Unavailable" indicates the phone has no connection,
+     * "2 Mobile Network" indicates the phone is connected to a cellular service, and
+     * any other value indicates an WiFi SSID with a preceeding "3 ".
+     *
      */
-    private String checkWhatNetwork(){
+    private String getNetworkName(){
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         // If there is no active network, return not available
         if (activeNetworkInfo == null || !activeNetworkInfo.isConnectedOrConnecting()) {
-            return "Network unavailable";
+            return "1 Network unavailable";
         }
 
         // If there is an active network, check if it's wifi network
         if (activeNetworkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
-            return "Mobile data";
+            return "2 Mobile data";
         }
         // If it's wifi network, return the SSID
         WifiManager wifiManager =
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        return wifiInfo.getSSID();
+        return "3 " + wifiInfo.getSSID();
     }
 
 }
