@@ -25,7 +25,8 @@
         <activity
             android:name=".SunActivity"
             android:label="@string/title_activity_sun"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SetAlarmActivity"></activity>
     </application>
 
 </manifest>

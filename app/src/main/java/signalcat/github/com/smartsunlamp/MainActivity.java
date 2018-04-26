@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         Button btnOn = findViewById(R.id.button_on);
         Button btnOff = findViewById(R.id.button_off);
         Button btnToSun = findViewById(R.id.btn_toSun);
+        Button btnToAlarm = findViewById(R.id.btn_toAlarm);
         final TextView tvBrightness = findViewById(R.id.tv_brightness);
 
 //        // Create a bitmap object and apply it to imageView
@@ -101,6 +102,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, SunActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btnToAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, SetAlarmActivity.class);
                 startActivity(i);
             }
         });
