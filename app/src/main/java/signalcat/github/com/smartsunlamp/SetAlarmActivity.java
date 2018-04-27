@@ -37,13 +37,16 @@ public class SetAlarmActivity extends AppCompatActivity {
         // Create an intent to the Alarm Receiver class
         final Intent intent_toAlarmReceiver = new Intent(this.context, AlarmReceiver.class);
 
-
+        // Press on button to start alarm
         btnSetAlarmOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setAlarmText("Alarm On!");
                 setCalendar();
                 setAlarmText(getAlarmTime());
+
+                // Put in extra string into intent to indicate on button is pressed
+                intent_toAlarmReceiver.putExtra("alarm", "alarm on");
 
                 // Create a pending intent that delay the intent until the specified calendar time
                 pendingIntent = PendingIntent.getBroadcast(context, 0,
@@ -55,11 +58,18 @@ public class SetAlarmActivity extends AppCompatActivity {
             }
         });
 
+        // Press off button to stop alarm ? mute/delete?
         btnSetAlarmOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setAlarmText("Alarm Off!");
                 alarmManager.cancel(pendingIntent);
+
+                // tells the clock off button is pressed
+                intent_toAlarmReceiver.putExtra("alarm", "alarm off");
+
+                // Stop the ringtone
+                sendBroadcast(intent_toAlarmReceiver);
             }
         });
     }
