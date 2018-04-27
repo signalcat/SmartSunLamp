@@ -27,6 +27,8 @@
             android:label="@string/title_activity_sun"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SetAlarmActivity"></activity>
+        <receiver android:name=".AlarmReceiver"/>
+        <service android:name="RingtonePlayService"></service>
     </application>
 
 </manifest>

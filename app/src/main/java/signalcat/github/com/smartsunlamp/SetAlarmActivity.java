@@ -1,6 +1,9 @@
 package signalcat.github.com.smartsunlamp;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,20 +19,23 @@ public class SetAlarmActivity extends AppCompatActivity {
     TimePicker alarmTimePicker;
     TextView tvAlarmStatus;
     final Calendar calendar = Calendar.getInstance();
+    Context context; //?
+    PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_alarm);
+        this.context = this; //?
 
         Button btnSetAlarmOn = findViewById(R.id.btn_setAlarm);
         Button btnSetAlarmOff = findViewById(R.id.btn_setAlarmOff);
-
         alarmTimePicker = findViewById(R.id.timePicker);
         tvAlarmStatus = findViewById(R.id.tv_alarmStatus);
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
+        // Create an intent to the Alarm Receiver class
+        final Intent intent_toAlarmReceiver = new Intent(this.context, AlarmReceiver.class);
 
 
         btnSetAlarmOn.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +44,14 @@ public class SetAlarmActivity extends AppCompatActivity {
                 setAlarmText("Alarm On!");
                 setCalendar();
                 setAlarmText(getAlarmTime());
+
+                // Create a pending intent that delay the intent until the specified calendar time
+                pendingIntent = PendingIntent.getBroadcast(context, 0,
+                        intent_toAlarmReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // Set the alarm manager
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        pendingIntent);
             }
         });
 
@@ -45,6 +59,7 @@ public class SetAlarmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setAlarmText("Alarm Off!");
+                alarmManager.cancel(pendingIntent);
             }
         });
     }
