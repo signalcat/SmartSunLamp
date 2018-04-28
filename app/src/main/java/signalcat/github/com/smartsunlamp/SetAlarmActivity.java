@@ -63,8 +63,9 @@ public class SetAlarmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setAlarmText("Alarm Off!");
-                alarmManager.cancel(pendingIntent);
-
+                if (pendingIntent != null) {
+                    alarmManager.cancel(pendingIntent);
+                }
                 // tells the clock off button is pressed
                 intent_toAlarmReceiver.putExtra("alarm", "alarm off");
 
