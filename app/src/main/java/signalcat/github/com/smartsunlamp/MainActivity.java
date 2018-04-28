@@ -1,8 +1,6 @@
 package signalcat.github.com.smartsunlamp;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -12,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,21 +24,22 @@ import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHan
  */
 public class MainActivity extends AppCompatActivity
 {
-    // Limits how often the seekbar sends commands to the wakeup light
-    // in milliseconds.
-    final static int SEND_THRESHOLD = 50;
+    // The local network IP address
     final String BASE_URL = "http://192.168.1.12/";
 //    final String BASE_URL = "http://192.168.1.118/";
     private Lamp lamp;
-    // Brightness adjustment bar
     SeekBar seekBar;
-    // Light bulb image brightness indicator
-    private ImageView imageView_bulb;
-    private Bitmap bitmap;
-
+    // Limits how often the seekBar sends commands to the wakeup light in milliseconds.
+    final static int SEND_THRESHOLD = 50;
     long lastTimeCmdWasSent = 0;
 
     AsyncHttpClient client = new AsyncHttpClient();
+
+    Button btnOn;
+    Button btnOff;
+    Button btnToSun;
+    Button btnToAlarm;
+    TextView tvBrightness;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,11 +47,15 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getViews();
 
         // Check if network is connected and display info
         displayNetworkInfo();
 
+        // Initialize lamp object
         lamp = new Lamp();
+
+        // Check the current lamp brightness and update seekBar position
         sendCmd("status", new Runnable(){
             @Override
             public void run() {
@@ -62,24 +64,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        // Fetch all views
-        Button btnOn = findViewById(R.id.button_on);
-        Button btnOff = findViewById(R.id.button_off);
-        Button btnToSun = findViewById(R.id.btn_toSun);
-        Button btnToAlarm = findViewById(R.id.btn_toAlarm);
-        final TextView tvBrightness = findViewById(R.id.tv_brightness);
-
-//        // Create a bitmap object and apply it to imageView
-//        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.light_bulb);
-//        imageView_bulb = findViewById(R.id.imageView_lightBulb);
-//        imageView_bulb.setImageBitmap(bitmap);
-//
-//        // Initialize the image processing class for the lightBulb
-//        final ImageThread imageThread = new ImageThread(imageView_bulb, bitmap);
-//        imageThread.start();
-
-        // When On button is pressed, send on command
         btnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +72,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // When Off button is pressed, send off command
         btnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Go to the sunActivity
+        // Go to SunActivity
         btnToSun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +89,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Go to AlarmActivity
         btnToAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +98,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         // Adjust the brightness level
-        seekBar = findViewById(R.id.bar_brightness);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progressVal = 0;
 
@@ -123,16 +107,10 @@ public class MainActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressVal = progress;
                 tvBrightness.setText("Current Progress:" + progressVal);
-
-                //imageThread.adjustBrightness(progressVal);
-
                 if (lastTimeCmdWasSent + SEND_THRESHOLD < System.currentTimeMillis()) {
                     // Set the brightness
                     sendCmd("/LED/" + progressVal + "/00");
                     lastTimeCmdWasSent = System.currentTimeMillis();
-                    //Log.d("randomStuff", "Command was sent");
-//                    imageThread.adjustBrightness(progressVal);
-
                 }
             }
 
@@ -147,6 +125,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    public void getViews() {
+        btnOn = findViewById(R.id.button_on);
+        btnOff = findViewById(R.id.button_off);
+        btnToSun = findViewById(R.id.btn_toSun);
+        btnToAlarm = findViewById(R.id.btn_toAlarm);
+        tvBrightness = findViewById(R.id.tv_brightness);
+        seekBar = findViewById(R.id.bar_brightness);
     }
 
     /**
