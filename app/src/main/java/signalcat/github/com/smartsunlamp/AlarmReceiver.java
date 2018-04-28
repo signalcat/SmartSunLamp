@@ -15,15 +15,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.e("We are in the receiver", "Yes!");
 
         // Fetch extra string from the parent activity
-        String stringFromIntent = intent.getExtras().getString("alarm");
+        String alarmStatus = intent.getExtras().getString("alarm");
+        String alarmSound = intent.getExtras().getString("sound");
 
-        Log.e("What is the operation?", stringFromIntent);
+        Log.e("What is the operation?", alarmStatus);
 
         // Create an intent to the ringtone service
         Intent intent_toRingtone = new Intent(context, RingtonePlayService.class);
 
         // Pass the extra string to the ringtone service
-        intent_toRingtone.putExtra("alarm", stringFromIntent);
+        intent_toRingtone.putExtra("alarm", alarmStatus);
+        intent_toRingtone.putExtra("sound", alarmSound);
 
         // Start the ringtone service
         context.startService(intent_toRingtone);

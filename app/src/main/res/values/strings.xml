@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SmartSunLamp</string>
     <string name="title_activity_sun">SunActivity</string>
+    <string-array name="alarmSound_array">
+        <item>Bird</item>
+        <item>Ocean</item>
+        <item>Wetland</item>
+        <item>Stream</item>
+    </string-array>
 </resources>

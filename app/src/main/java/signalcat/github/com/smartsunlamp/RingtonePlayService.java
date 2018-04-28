@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -32,7 +33,22 @@ public class RingtonePlayService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Fetch the extra string from the intent
         String alarmState = intent.getExtras().getString("alarm");
+        String alarmSound = intent.getExtras().getString("sound");
+        Log.e("Alarm sound:", alarmSound);
         Log.e("Alarm state:", alarmState);
+
+        //mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
+            if (alarmSound.equalsIgnoreCase("ocean")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.ocean);
+            } else if (alarmSound.equalsIgnoreCase("stream")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.stream);
+            } else if (alarmSound.equalsIgnoreCase("wetland")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.wetland);
+            } else {
+                mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
+            }
+
+
         controlAlarmSound(alarmState);
         return START_NOT_STICKY;
     }
@@ -61,7 +77,7 @@ public class RingtonePlayService extends Service {
         }
         // No music, press "Alarm on": play music
         if (!isRunning && isOn) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
+            mediaPlayer.setLooping(true);
             mediaPlayer.start();
             // Create notification banner when the alarm goes off
             CreateNotification();

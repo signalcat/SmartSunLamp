@@ -8,19 +8,26 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class SetAlarmActivity extends AppCompatActivity {
+public class SetAlarmActivity extends AppCompatActivity{
     AlarmManager alarmManager;
     TimePicker alarmTimePicker;
     TextView tvAlarmStatus;
     final Calendar calendar = Calendar.getInstance();
     Context context; //?
     PendingIntent pendingIntent;
+    Spinner spinner;
+    String itemSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +39,31 @@ public class SetAlarmActivity extends AppCompatActivity {
         Button btnSetAlarmOff = findViewById(R.id.btn_setAlarmOff);
         alarmTimePicker = findViewById(R.id.timePicker);
         tvAlarmStatus = findViewById(R.id.tv_alarmStatus);
+        spinner = findViewById(R.id.spinner_alarm);
 
+
+        // Create alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // Create an intent to the Alarm Receiver class
         final Intent intent_toAlarmReceiver = new Intent(this.context, AlarmReceiver.class);
+
+        // Create spinner for alarm sound options
+        ArrayAdapter<CharSequence> adapter_spinner = ArrayAdapter.createFromResource(this,
+                R.array.alarmSound_array, android.R.layout.simple_spinner_item);
+        adapter_spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter_spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                itemSelected = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         // Press on button to start alarm
         btnSetAlarmOn.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +75,7 @@ public class SetAlarmActivity extends AppCompatActivity {
 
                 // Put in extra string into intent to indicate on button is pressed
                 intent_toAlarmReceiver.putExtra("alarm", "alarm on");
+                intent_toAlarmReceiver.putExtra("sound", itemSelected);
 
                 // Create a pending intent that delay the intent until the specified calendar time
                 pendingIntent = PendingIntent.getBroadcast(context, 0,
