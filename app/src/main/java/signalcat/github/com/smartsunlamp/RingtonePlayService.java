@@ -1,6 +1,5 @@
 package signalcat.github.com.smartsunlamp;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -106,7 +105,7 @@ public class RingtonePlayService extends Service {
         // Make the notification parameters
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, "AlarmChannel")
-                        .setSmallIcon(R.drawable.light_bulb)
+                        .setSmallIcon(R.mipmap.ic_alarm_notification)
                         .setContentTitle("Alarm is off!")
                         .setContentText("Click me!")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
