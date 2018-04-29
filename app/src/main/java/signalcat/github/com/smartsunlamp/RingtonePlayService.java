@@ -6,12 +6,15 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.io.IOException;
 
 /**
  * Created by hezhang on 4/27/18.
@@ -37,31 +40,6 @@ public class RingtonePlayService extends Service {
         Log.e("Alarm sound:", alarmSound);
         Log.e("Alarm state:", alarmState);
 
-        //mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
-            if (alarmSound.equalsIgnoreCase("ocean")) {
-                mediaPlayer = MediaPlayer.create(this, R.raw.ocean);
-            } else if (alarmSound.equalsIgnoreCase("stream")) {
-                mediaPlayer = MediaPlayer.create(this, R.raw.stream);
-            } else if (alarmSound.equalsIgnoreCase("wetland")) {
-                mediaPlayer = MediaPlayer.create(this, R.raw.wetland);
-            } else {
-                mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
-            }
-
-
-        controlAlarmSound(alarmState);
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public void onDestroy() {
-        // Tell the user we stopped
-        Log.e("on Destroy called", "ta da");
-        super.onDestroy();
-        isRunning = false;
-    }
-
-    private void controlAlarmSound(String alarmState) {
         // Converts extra string from the intent to startIds
         assert alarmState != null;
         switch (alarmState) {
@@ -77,6 +55,15 @@ public class RingtonePlayService extends Service {
         }
         // No music, press "Alarm on": play music
         if (!isRunning && isOn) {
+            if (alarmSound.equalsIgnoreCase("ocean")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.ocean);
+            } else if (alarmSound.equalsIgnoreCase("stream")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.stream);
+            } else if (alarmSound.equalsIgnoreCase("wetland")) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.wetland);
+            } else {
+                mediaPlayer = MediaPlayer.create(this, R.raw.bird_sounds);
+            }
             mediaPlayer.setLooping(true);
             mediaPlayer.start();
             // Create notification banner when the alarm goes off
@@ -88,6 +75,8 @@ public class RingtonePlayService extends Service {
         else if (isRunning && !isOn) {
             mediaPlayer.stop();
             mediaPlayer.reset();
+            mediaPlayer.release();
+
             isRunning = false;
             isOn = false;
         }
@@ -104,6 +93,16 @@ public class RingtonePlayService extends Service {
         else {
             Log.e("else", "Some how you reach this");
         }
+
+        return START_NOT_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        // Tell the user we stopped
+        Log.e("on Destroy called", "ta da");
+        super.onDestroy();
+        isRunning = false;
     }
 
     private void CreateNotification() {
