@@ -97,6 +97,7 @@ public class SetAlarmActivity extends AppCompatActivity{
                 }
                 // tells the clock off button is pressed
                 intent_toAlarmReceiver.putExtra("alarm", "alarm off");
+                intent_toAlarmReceiver.putExtra("sound", "");
 
                 // Stop the ringtone
                 sendBroadcast(intent_toAlarmReceiver);
