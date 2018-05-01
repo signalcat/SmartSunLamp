@@ -25,7 +25,7 @@ import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHan
 public class MainActivity extends AppCompatActivity
 {
     // The local network IP address
-    final String BASE_URL = "http://192.168.1.12/";
+    public final static String BASE_URL = "http://192.168.1.12/";
 //    final String BASE_URL = "http://192.168.1.118/";
     private Lamp lamp;
     SeekBar seekBar;
@@ -125,6 +125,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    // Check the current lamp brightness and update seekBar position
+    // when we come back from other activities in the app
+    @Override
+    protected void onStart() {
+        super.onStart();
+        sendCmd("status", new Runnable(){
+            @Override
+            public void run() {
+                Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
+                seekBar.setProgress((int)lamp.getBrightness());
+            }
+        });
     }
 
     public void getViews() {

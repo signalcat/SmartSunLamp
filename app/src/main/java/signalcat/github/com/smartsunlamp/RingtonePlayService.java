@@ -1,5 +1,7 @@
 package signalcat.github.com.smartsunlamp;
 
+import android.app.FragmentManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,7 +16,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+
 import java.io.IOException;
+
+import cz.msebera.android.httpclient.Header;
+import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
 /**
  * Created by hezhang on 4/27/18.
@@ -25,6 +35,7 @@ public class RingtonePlayService extends Service {
     MediaPlayer mediaPlayer;
     boolean isRunning;
     boolean isOn;
+    AsyncHttpClient client;
 
     @Nullable
     @Override
@@ -109,6 +120,20 @@ public class RingtonePlayService extends Service {
         // Set up an intent goes to the setAlarm window
         Intent intent_toSetAlarm = new Intent(this.getApplicationContext(), SetAlarmActivity.class);
 
+        // Turn on the light when the alarm goes off
+        client= new AsyncHttpClient();
+        client.get("http://192.168.1.12/on", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.e("Alarm request:", "Success!");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("Alarm request:", "Failed!");
+            }
+        });
+
         // Set up a pending intent to go back to alarm screen
         PendingIntent pendingIntent_setAlarm = PendingIntent
                 .getActivity(this, 0, intent_toSetAlarm, 0);
@@ -123,7 +148,8 @@ public class RingtonePlayService extends Service {
                         .setSmallIcon(R.mipmap.ic_alarm_notification)
                         .setContentTitle("Alarm is off!")
                         .setContentText("Click me!")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setPriority(NotificationManager.IMPORTANCE_HIGH)
                         .setContentIntent(pendingIntent_setAlarm)
                         .setAutoCancel(true);
 
@@ -132,7 +158,7 @@ public class RingtonePlayService extends Service {
             // the NotificationChannel class is new and not in the support library
             CharSequence name = "Alarm channel";
             String description = "Channel for alarm";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("AlarmChannel", name, importance);
             channel.setDescription(description);
             // Register the channel with the system
