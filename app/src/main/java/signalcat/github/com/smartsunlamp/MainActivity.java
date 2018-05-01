@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     Button btnOff;
     Button btnToSun;
     Button btnToAlarm;
+    Button btnToMap;
     TextView tvBrightness;
 
     @Override
@@ -98,6 +99,16 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Go to map
+        btnToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 
         // Adjust the brightness level
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -146,6 +157,7 @@ public class MainActivity extends AppCompatActivity
         btnOff = findViewById(R.id.button_off);
         btnToSun = findViewById(R.id.btn_toSun);
         btnToAlarm = findViewById(R.id.btn_toAlarm);
+        btnToMap = findViewById(R.id.btn_toMap);
         tvBrightness = findViewById(R.id.tv_brightness);
         seekBar = findViewById(R.id.bar_brightness);
     }
