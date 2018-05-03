@@ -82,44 +82,48 @@
 
     <ImageView
         android:id="@+id/iv_lightBar1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/iv_lightBar2"
-        android:layout_toLeftOf="@+id/iv_lightBar2"
-        android:layout_toStartOf="@+id/iv_lightBar2"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        android:layout_toLeftOf="@+id/iv_bulb"
+        android:layout_toStartOf="@+id/iv_bulb"
+        android:src="@drawable/iv_lightbar1" />
 
     <ImageView
         android:id="@+id/iv_lightBar2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/iv_lightBar3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/iv_lightBar4"
         android:layout_toLeftOf="@+id/iv_lightBar3"
         android:layout_toStartOf="@+id/iv_lightBar3"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        android:src="@drawable/iv_lightbar2" />
 
     <ImageView
         android:id="@+id/iv_lightBar3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/btn_toSun"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        android:layout_marginTop="21dp"
+        android:src="@drawable/iv_lightbar3" />
 
     <ImageView
         android:id="@+id/iv_lightBar4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/iv_lightBar3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignTop="@+id/iv_lightBar3"
+        android:layout_marginTop="33dp"
+        android:layout_toEndOf="@+id/iv_lightBar3"
         android:layout_toRightOf="@+id/iv_lightBar3"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        android:src="@drawable/iv_lightbar4" />
 
     <ImageView
         android:id="@+id/iv_lightBar5"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/button_off"
+        android:layout_alignStart="@+id/button_off"
         android:layout_below="@+id/iv_lightBar4"
-        android:layout_toRightOf="@+id/iv_lightBar4"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        android:src="@drawable/iv_lightbar5" />
 
 </RelativeLayout>
