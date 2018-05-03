@@ -145,7 +145,7 @@ public class RingtonePlayService extends Service {
         // Make the notification parameters
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, "AlarmChannel")
-                        .setSmallIcon(R.mipmap.ic_alarm_notification)
+                        .setSmallIcon(R.drawable.ic_access_alarm_black_24dp)
                         .setContentTitle("Alarm is off!")
                         .setContentText("Click me!")
                         .setDefaults(Notification.DEFAULT_ALL)

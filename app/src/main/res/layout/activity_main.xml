@@ -10,44 +10,35 @@
         android:id="@+id/button_on"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_off"
-        android:layout_alignBottom="@+id/button_off"
-        android:layout_marginLeft="63dp"
-        android:layout_marginStart="63dp"
-        android:layout_toEndOf="@+id/button_off"
-        android:layout_toRightOf="@+id/button_off"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="33dp"
+        android:layout_marginLeft="40dp"
         android:text="On" />
 
     <Button
         android:id="@+id/button_off"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="117dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginStart="60dp"
+        android:layout_alignBottom="@+id/button_on"
+        android:layout_alignRight="@id/bar_brightness"
         android:text="Off" />
 
     <SeekBar
+        android:thumbOffset="20px"
         android:id="@+id/bar_brightness"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/button_on"
-        android:layout_alignLeft="@+id/button_off"
-        android:layout_alignRight="@+id/button_on"
-        android:layout_alignStart="@+id/button_off"
-        android:layout_centerVertical="true" />
+        android:layout_above="@+id/tv_brightness"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:thumb="@mipmap/ic_bulb" />
 
     <TextView
         android:id="@+id/tv_brightness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bar_brightness"
-        android:layout_alignLeft="@+id/bar_brightness"
-        android:layout_alignStart="@+id/bar_brightness"
-        android:layout_marginBottom="44dp"
+        android:layout_above="@+id/button_off"
+        android:layout_centerHorizontal="true"
         android:text="brightness" />
 
     <ImageView
@@ -62,10 +53,9 @@
         android:id="@+id/btn_toSun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="29dp"
-        android:layout_toEndOf="@+id/tv_brightness"
-        android:layout_toRightOf="@+id/tv_brightness"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_toMap"
+        android:layout_toRightOf="@+id/btn_toMap"
         android:text="toSunTime" />
 
     <Button
@@ -82,5 +72,54 @@
         android:layout_toEndOf="@+id/btn_toAlarm"
         android:layout_toRightOf="@+id/btn_toAlarm"
         android:text="ToMap" />
+
+    <ImageView
+        android:id="@+id/iv_bulb"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/bulb_icon" />
+
+    <ImageView
+        android:id="@+id/iv_lightBar1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/iv_lightBar2"
+        android:layout_toLeftOf="@+id/iv_lightBar2"
+        android:layout_toStartOf="@+id/iv_lightBar2"
+        app:srcCompat="@android:color/holo_orange_dark" />
+
+    <ImageView
+        android:id="@+id/iv_lightBar2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/iv_lightBar3"
+        android:layout_toLeftOf="@+id/iv_lightBar3"
+        android:layout_toStartOf="@+id/iv_lightBar3"
+        app:srcCompat="@android:color/holo_orange_dark" />
+
+    <ImageView
+        android:id="@+id/iv_lightBar3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@android:color/holo_orange_dark" />
+
+    <ImageView
+        android:id="@+id/iv_lightBar4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/iv_lightBar3"
+        android:layout_toRightOf="@+id/iv_lightBar3"
+        app:srcCompat="@android:color/holo_orange_dark" />
+
+    <ImageView
+        android:id="@+id/iv_lightBar5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/iv_lightBar4"
+        android:layout_toRightOf="@+id/iv_lightBar4"
+        app:srcCompat="@android:color/holo_orange_dark" />
 
 </RelativeLayout>

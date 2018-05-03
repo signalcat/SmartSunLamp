@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity
     Button btnToAlarm;
     Button btnToMap;
     TextView tvBrightness;
+    ImageView ivLightBar1;
+    ImageView ivLightBar2;
+    ImageView ivLightBar3;
+    ImageView ivLightBar4;
+    ImageView ivLightBar5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
                 seekBar.setProgress((int)lamp.getBrightness());
+                lightBarAnimation((int)lamp.getBrightness());
             }
         });
 
@@ -123,6 +130,7 @@ public class MainActivity extends AppCompatActivity
                     sendCmd("/LED/" + progressVal + "/00");
                     lastTimeCmdWasSent = System.currentTimeMillis();
                 }
+                lightBarAnimation(progressVal);
             }
 
             @Override
@@ -160,6 +168,11 @@ public class MainActivity extends AppCompatActivity
         btnToMap = findViewById(R.id.btn_toMap);
         tvBrightness = findViewById(R.id.tv_brightness);
         seekBar = findViewById(R.id.bar_brightness);
+        ivLightBar1 = findViewById(R.id.iv_lightBar1);
+        ivLightBar2 = findViewById(R.id.iv_lightBar2);
+        ivLightBar3 = findViewById(R.id.iv_lightBar3);
+        ivLightBar4 = findViewById(R.id.iv_lightBar4);
+        ivLightBar5 = findViewById(R.id.iv_lightBar5);
     }
 
     /**
@@ -208,6 +221,47 @@ public class MainActivity extends AppCompatActivity
                 (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         return "3 " + wifiInfo.getSSID();
+    }
+
+    private void lightBarAnimation(int progressVal) {
+        if (progressVal < 15) {
+            ivLightBar1.setVisibility(View.INVISIBLE);
+            ivLightBar2.setVisibility(View.INVISIBLE);
+            ivLightBar3.setVisibility(View.INVISIBLE);
+            ivLightBar4.setVisibility(View.INVISIBLE);
+            ivLightBar5.setVisibility(View.INVISIBLE);
+        } else if (progressVal >= 15 && progressVal < 30) {
+            ivLightBar1.setVisibility(View.VISIBLE);
+            ivLightBar2.setVisibility(View.INVISIBLE);
+            ivLightBar3.setVisibility(View.INVISIBLE);
+            ivLightBar4.setVisibility(View.INVISIBLE);
+            ivLightBar5.setVisibility(View.INVISIBLE);
+        } else if (progressVal >= 30 && progressVal < 45) {
+            ivLightBar1.setVisibility(View.VISIBLE);
+            ivLightBar2.setVisibility(View.VISIBLE);
+            ivLightBar3.setVisibility(View.INVISIBLE);
+            ivLightBar4.setVisibility(View.INVISIBLE);
+            ivLightBar5.setVisibility(View.INVISIBLE);
+        } else if (progressVal >= 45 && progressVal < 60) {
+            ivLightBar1.setVisibility(View.VISIBLE);
+            ivLightBar2.setVisibility(View.VISIBLE);
+            ivLightBar3.setVisibility(View.VISIBLE);
+            ivLightBar4.setVisibility(View.INVISIBLE);
+            ivLightBar5.setVisibility(View.INVISIBLE);
+        } else if (progressVal >= 60 && progressVal < 75) {
+            ivLightBar1.setVisibility(View.VISIBLE);
+            ivLightBar2.setVisibility(View.VISIBLE);
+            ivLightBar3.setVisibility(View.VISIBLE);
+            ivLightBar4.setVisibility(View.VISIBLE);
+            ivLightBar5.setVisibility(View.INVISIBLE);
+        } else {
+            ivLightBar1.setVisibility(View.VISIBLE);
+            ivLightBar2.setVisibility(View.VISIBLE);
+            ivLightBar3.setVisibility(View.VISIBLE);
+            ivLightBar4.setVisibility(View.VISIBLE);
+            ivLightBar5.setVisibility(View.VISIBLE);
+
+        }
     }
 
 }
