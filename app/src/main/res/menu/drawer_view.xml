@@ -1,0 +1,8 @@
+<menu xmlns:andorid="http://schemas.android.com/apk/res/android">
+    <item
+        andorid:id="@+id/nav_menu_first"
+        andorid:title="Alarm" />
+    <item
+        andorid:id="@+id/nav_menu_second"
+        andorid:title="SunRise" />
+</menu>

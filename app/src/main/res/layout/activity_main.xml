@@ -1,129 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="signalcat.github.com.smartsunlamp.MainActivity">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_on"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- The ActionBar displayed at the top -->
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="signalcat.github.com.smartsunlamp.MainActivity">
+
+            <Button
+                android:id="@+id/button_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="33dp"
+                android:layout_marginLeft="40dp"
+                android:text="On" />
+
+            <Button
+                android:id="@+id/button_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/button_on"
+                android:layout_alignRight="@id/bar_brightness"
+                android:text="Off" />
+
+            <SeekBar
+                android:thumbOffset="20px"
+                android:id="@+id/bar_brightness"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_brightness"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:thumb="@mipmap/ic_bulb" />
+
+            <TextView
+                android:id="@+id/tv_brightness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/button_off"
+                android:layout_centerHorizontal="true"
+                android:text="brightness" />
+
+            <ImageView
+                android:id="@+id/imageView_lightBulb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_brightness"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:id="@+id/btn_toSun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/btn_toMap"
+                android:layout_toRightOf="@+id/btn_toMap"
+                android:text="toSunTime" />
+
+            <Button
+                android:id="@+id/btn_toAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="toSetAlarm"/>
+
+            <Button
+                android:id="@+id/btn_toMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/btn_toAlarm"
+                android:layout_toRightOf="@+id/btn_toAlarm"
+                android:text="ToMap" />
+
+            <ImageView
+                android:id="@+id/iv_bulb"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/bulb_icon" />
+
+            <ImageView
+                android:id="@+id/iv_lightBar1"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/iv_lightBar2"
+                android:layout_toLeftOf="@+id/iv_bulb"
+                android:layout_toStartOf="@+id/iv_bulb"
+                android:src="@drawable/iv_lightbar1" />
+
+            <ImageView
+                android:id="@+id/iv_lightBar2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignTop="@+id/iv_lightBar4"
+                android:layout_toLeftOf="@+id/iv_lightBar3"
+                android:layout_toStartOf="@+id/iv_lightBar3"
+                android:src="@drawable/iv_lightbar2" />
+
+            <ImageView
+                android:id="@+id/iv_lightBar3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/btn_toSun"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="21dp"
+                android:src="@drawable/iv_lightbar3" />
+
+            <ImageView
+                android:id="@+id/iv_lightBar4"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignTop="@+id/iv_lightBar3"
+                android:layout_marginTop="33dp"
+                android:layout_toEndOf="@+id/iv_lightBar3"
+                android:layout_toRightOf="@+id/iv_lightBar3"
+                android:src="@drawable/iv_lightbar4" />
+
+            <ImageView
+                android:id="@+id/iv_lightBar5"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignLeft="@+id/button_off"
+                android:layout_alignStart="@+id/button_off"
+                android:layout_below="@+id/iv_lightBar4"
+                android:src="@drawable/iv_lightbar5" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="33dp"
-        android:layout_marginLeft="40dp"
-        android:text="On" />
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@android:color/white"
+        app:menu="@menu/drawer_view" />
+</android.support.v4.widget.DrawerLayout>
 
-    <Button
-        android:id="@+id/button_off"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button_on"
-        android:layout_alignRight="@id/bar_brightness"
-        android:text="Off" />
-
-    <SeekBar
-        android:thumbOffset="20px"
-        android:id="@+id/bar_brightness"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_brightness"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:thumb="@mipmap/ic_bulb" />
-
-    <TextView
-        android:id="@+id/tv_brightness"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_off"
-        android:layout_centerHorizontal="true"
-        android:text="brightness" />
-
-    <ImageView
-        android:id="@+id/imageView_lightBulb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_brightness"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/btn_toSun"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btn_toMap"
-        android:layout_toRightOf="@+id/btn_toMap"
-        android:text="toSunTime" />
-
-    <Button
-        android:id="@+id/btn_toAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="toSetAlarm"/>
-
-    <Button
-        android:id="@+id/btn_toMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btn_toAlarm"
-        android:layout_toRightOf="@+id/btn_toAlarm"
-        android:text="ToMap" />
-
-    <ImageView
-        android:id="@+id/iv_bulb"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/bulb_icon" />
-
-    <ImageView
-        android:id="@+id/iv_lightBar1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/iv_lightBar2"
-        android:layout_toLeftOf="@+id/iv_bulb"
-        android:layout_toStartOf="@+id/iv_bulb"
-        android:src="@drawable/iv_lightbar1" />
-
-    <ImageView
-        android:id="@+id/iv_lightBar2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignTop="@+id/iv_lightBar4"
-        android:layout_toLeftOf="@+id/iv_lightBar3"
-        android:layout_toStartOf="@+id/iv_lightBar3"
-        android:src="@drawable/iv_lightbar2" />
-
-    <ImageView
-        android:id="@+id/iv_lightBar3"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/btn_toSun"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:src="@drawable/iv_lightbar3" />
-
-    <ImageView
-        android:id="@+id/iv_lightBar4"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignTop="@+id/iv_lightBar3"
-        android:layout_marginTop="33dp"
-        android:layout_toEndOf="@+id/iv_lightBar3"
-        android:layout_toRightOf="@+id/iv_lightBar3"
-        android:src="@drawable/iv_lightbar4" />
-
-    <ImageView
-        android:id="@+id/iv_lightBar5"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignLeft="@+id/button_off"
-        android:layout_alignStart="@+id/button_off"
-        android:layout_below="@+id/iv_lightBar4"
-        android:src="@drawable/iv_lightbar5" />
-
-</RelativeLayout>
