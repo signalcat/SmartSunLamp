@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity
 
     Button btnOn;
     Button btnOff;
-    Button btnToSun;
-    Button btnToAlarm;
-    Button btnToMap;
     TextView tvBrightness;
     ImageView ivLightBar1;
     ImageView ivLightBar2;
@@ -114,35 +111,6 @@ public class MainActivity extends AppCompatActivity
                 //sendCmd("off");
             }
         });
-
-        // Go to SunActivity
-        btnToSun.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, SunActivity.class);
-                startActivity(i);
-            }
-        });
-
-        // Go to AlarmActivity
-        btnToAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, SetAlarmActivity.class);
-                startActivity(i);
-            }
-        });
-
-        // Go to map
-        btnToMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(i);
-            }
-        });
-
-
 
         // Adjust the brightness level
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -245,9 +213,6 @@ public class MainActivity extends AppCompatActivity
     public void getViews() {
         btnOn = findViewById(R.id.button_on);
         btnOff = findViewById(R.id.button_off);
-        btnToSun = findViewById(R.id.btn_toSun);
-        btnToAlarm = findViewById(R.id.btn_toAlarm);
-        btnToMap = findViewById(R.id.btn_toMap);
         tvBrightness = findViewById(R.id.tv_brightness);
         seekBar = findViewById(R.id.bar_brightness);
         ivLightBar1 = findViewById(R.id.iv_lightBar1);
