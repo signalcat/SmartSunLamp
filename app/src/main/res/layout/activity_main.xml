@@ -22,6 +22,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
             tools:context="signalcat.github.com.smartsunlamp.MainActivity">
 
             <Button
@@ -42,21 +43,23 @@
                 android:text="Off" />
 
             <SeekBar
-                android:thumbOffset="20px"
+                android:thumbOffset="20dp"
                 android:id="@+id/bar_brightness"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/tv_brightness"
+                android:layout_above="@id/button_on"
                 android:layout_centerHorizontal="true"
+                android:progressDrawable="@drawable/seekbar_style"
                 android:layout_marginBottom="20dp"
-                android:thumb="@mipmap/ic_bulb" />
+                android:thumb="@drawable/ic_seekbar_thumb" />
 
             <TextView
                 android:id="@+id/tv_brightness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/button_off"
+                android:layout_marginTop="30dp"
                 android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
                 android:text="brightness" />
 
 
@@ -64,19 +67,19 @@
                 android:layout_centerHorizontal="true"
                 android:id="@+id/iv_bulb"
                 android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/tv_brightness"
+                android:layout_height="200dp"
+                android:layout_above="@+id/bar_brightness"
+                android:layout_marginBottom="50dp"
                 android:src="@drawable/bulb_icon" />
 
             <ImageView
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:id="@+id/iv_lightBar1"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_below="@+id/iv_lightBar2"
-                android:layout_alignRight="@+id/button_on"
+                android:layout_marginRight="12dp"
                 android:layout_alignEnd="@+id/button_on"
+                android:layout_alignRight="@+id/button_on"
+                android:layout_below="@+id/iv_lightBar2"
                 android:src="@drawable/iv_lightbar1" />
 
             <ImageView

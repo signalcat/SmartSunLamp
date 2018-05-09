@@ -21,19 +21,13 @@ public class SunActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sun);
 
         sunTime = new SunTime();
-        Button btnGetSunTime = findViewById(R.id.btn_getSunTime);
+        //Button btnGetSunTime = findViewById(R.id.btn_getSunTime);
         final TextView tvSunRiseTime = findViewById(R.id.tv_sunRiseTime);
 
-
-        btnGetSunTime.setOnClickListener(new View.OnClickListener() {
+        getSunTime("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", new Runnable() {
             @Override
-            public void onClick(View view) {
-                getSunTime("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", new Runnable() {
-                    @Override
-                    public void run() {
-                        tvSunRiseTime.setText(sunTime.getSunRise());
-                    }
-                });
+            public void run() {
+                tvSunRiseTime.setText(sunTime.getSunRise());
             }
         });
 
