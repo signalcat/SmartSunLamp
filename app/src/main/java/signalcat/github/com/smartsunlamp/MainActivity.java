@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         sendCmd("status", new Runnable(){
             @Override
             public void run() {
-                Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
+                //Log.d("BRIGHTNESS", String.valueOf(lamp.getBrightness()));
                 seekBar.setProgress((int)lamp.getBrightness());
                 lightBarAnimation((int)lamp.getBrightness());
             }
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 progressVal = progress;
-                tvBrightness.setText("Current Progress:" + progressVal);
+                tvBrightness.setText(String.valueOf(progressVal)+"%");
                 if (lastTimeCmdWasSent + SEND_THRESHOLD < System.currentTimeMillis()) {
                     // Set the brightness
                     sendCmd("/LED/" + progressVal + "/00");

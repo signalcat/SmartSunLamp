@@ -60,7 +60,8 @@
                 android:layout_marginTop="30dp"
                 android:layout_centerHorizontal="true"
                 android:textColor="@android:color/white"
-                android:text="brightness" />
+                android:textSize="30dp"
+                android:text=""/>
 
 
             <ImageView
