@@ -32,7 +32,9 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="33dp"
                 android:layout_marginLeft="40dp"
-                android:text="On" />
+                android:background="@android:color/background_light"
+                android:text="On"
+                android:textColor="?attr/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/button_off"
@@ -40,18 +42,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/button_on"
                 android:layout_alignRight="@id/bar_brightness"
-                android:text="Off" />
+                android:background="@color/colorPrimary"
+                android:text="Off"
+                android:textColor="@android:color/background_light" />
 
             <SeekBar
-                android:thumbOffset="20dp"
+                android:progressTint="@color/yellow"
+                android:thumbTint="@android:color/white"
+                android:progressBackgroundTint="@android:color/white"
                 android:id="@+id/bar_brightness"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/button_on"
                 android:layout_centerHorizontal="true"
-                android:progressDrawable="@drawable/seekbar_style"
-                android:layout_marginBottom="20dp"
-                android:thumb="@drawable/ic_seekbar_thumb" />
+                android:layout_marginBottom="20dp" />
 
             <TextView
                 android:id="@+id/tv_brightness"
@@ -65,12 +69,12 @@
 
 
             <ImageView
-                android:layout_centerHorizontal="true"
                 android:id="@+id/iv_bulb"
                 android:layout_width="130dp"
                 android:layout_height="200dp"
+                android:layout_centerInParent="true"
                 android:layout_above="@+id/bar_brightness"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="80dp"
                 android:src="@drawable/bulb_icon" />
 
             <ImageView
@@ -96,7 +100,6 @@
                 android:id="@+id/iv_lightBar3"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="57dp"
                 android:src="@drawable/iv_lightbar3" />
