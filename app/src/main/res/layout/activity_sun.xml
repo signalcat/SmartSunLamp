@@ -27,11 +27,33 @@
         android:text="GetSunRiseTime" />
 
     <TextView
+        android:id="@+id/tv_sunRiseTimeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tv_sunRiseTime"
+        android:layout_alignBaseline="@id/tv_sunRiseTime"
+        android:text="Sunrise:"/>
+
+    <TextView
         android:id="@+id/tv_sunRiseTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_getSunTime"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="172dp"
-        android:text="TextView" />
+        android:layout_marginBottom="172dp" />
+
+    <TextView
+        android:id="@+id/tv_sunSetTimeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_sunRiseTime"
+        android:layout_toRightOf="@id/tv_sunRiseTime"
+        android:text="Sunset:"/>
+
+    <TextView
+        android:id="@+id/tv_sunSetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_sunSetTimeTitle"
+        android:layout_alignBaseline="@id/tv_sunRiseTime"/>
 </RelativeLayout>

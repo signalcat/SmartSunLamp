@@ -34,22 +34,24 @@ public class SunActivity extends AppCompatActivity {
         sunTime = new SunTime();
         //Button btnGetSunTime = findViewById(R.id.btn_getSunTime);
         final TextView tvSunRiseTime = findViewById(R.id.tv_sunRiseTime);
+        final TextView tvSunSetTime = findViewById(R.id.tv_sunSetTime);
         sunShape = findViewById(R.id.iv_sun);
         getSunTime("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400", new Runnable() {
             @Override
             public void run() {
                 tvSunRiseTime.setText(sunTime.getSunRise());
+                tvSunSetTime.setText(sunTime.getSunSet());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Path path = new Path();
+                    path.arcTo(20f,50f,600f,600f,180f,180f,true);
+                    ObjectAnimator animator = ObjectAnimator.ofFloat(sunShape, View.X, View.Y, path);
+                    animator.setDuration(1000);
+                    animator.start();
+
+                }
+
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Path path = new Path();
-            path.arcTo(20f,50f,600f,600f,180f,180f,true);
-            ObjectAnimator animator = ObjectAnimator.ofFloat(sunShape, View.X, View.Y, path);
-            animator.setDuration(2000);
-            animator.start();
-
-        }
 
     }
 

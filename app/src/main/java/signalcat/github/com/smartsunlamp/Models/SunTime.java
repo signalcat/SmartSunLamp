@@ -13,6 +13,7 @@ public class SunTime {
 
     private String sunRise;
     private String status;
+    private String sunSet;
     private float latitude;
     private float longitude;
 
@@ -24,6 +25,8 @@ public class SunTime {
         return sunRise;
     }
 
+    public String getSunSet() { return sunSet; }
+
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
@@ -34,6 +37,7 @@ public class SunTime {
 
     public SunTime() {
         sunRise = "";
+        sunSet = "";
         status = "";
         latitude = 0;
         longitude = 0;
@@ -43,8 +47,7 @@ public class SunTime {
         try{
             sunObject = sunObject.getJSONObject("results");
             sunRise = sunObject.getString("sunrise");
-            Log.d("sunRise", sunRise);
-
+            sunSet = sunObject.getString("sunset");
         } catch (JSONException e) {
             e.printStackTrace();
         }
