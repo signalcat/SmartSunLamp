@@ -13,18 +13,7 @@
         android:layout_above="@+id/tv_sunRiseTime"
         android:layout_marginEnd="34dp"
         android:layout_marginRight="34dp"
-        android:layout_toLeftOf="@+id/btn_getSunTime"
-        android:layout_toStartOf="@+id/btn_getSunTime"
         android:src="@drawable/ic_sun" />
-
-    <Button
-        android:id="@+id/btn_getSunTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="86dp"
-        android:text="GetSunRiseTime" />
 
     <TextView
         android:id="@+id/tv_sunRiseTimeTitle"
@@ -38,8 +27,7 @@
         android:id="@+id/tv_sunRiseTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_getSunTime"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="172dp" />
 
     <TextView

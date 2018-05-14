@@ -55,8 +55,6 @@ public class SunActivity extends AppCompatActivity {
 
     }
 
-
-
     public void getSunTime(String url, Runnable runnable){
         SunHttpResponseHandler handler = new SunHttpResponseHandler(sunTime, runnable);
         client.get(url, handler);
