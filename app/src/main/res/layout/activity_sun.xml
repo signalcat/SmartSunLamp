@@ -19,29 +19,37 @@
         android:id="@+id/tv_sunRiseTimeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/tv_sunRiseTime"
-        android:layout_alignBaseline="@id/tv_sunRiseTime"
-        android:text="Sunrise:"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/iv_sun"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:text="Sunrise:" />
 
     <TextView
         android:id="@+id/tv_sunRiseTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_sunRiseTimeTitle"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="172dp" />
+        android:layout_marginBottom="102dp"
+        android:text="sun rise"/>
 
     <TextView
         android:id="@+id/tv_sunSetTimeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tv_sunRiseTime"
-        android:layout_toRightOf="@id/tv_sunRiseTime"
-        android:text="Sunset:"/>
+        android:layout_alignBaseline="@+id/tv_sunRiseTimeTitle"
+        android:layout_alignBottom="@+id/tv_sunRiseTimeTitle"
+        android:layout_marginLeft="200dp"
+        android:layout_marginStart="200dp"
+        android:text="Sunset:" />
 
     <TextView
+        android:text="sunset"
         android:id="@+id/tv_sunSetTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tv_sunSetTimeTitle"
-        android:layout_alignBaseline="@id/tv_sunRiseTime"/>
+        android:layout_alignBaseline="@id/tv_sunSetTimeTitle"/>
 </RelativeLayout>
