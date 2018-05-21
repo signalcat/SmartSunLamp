@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     // The local network IP address
     public final static String BASE_URL = "http://192.168.1.12/";
 //    final String BASE_URL = "http://192.168.1.118/";
-    private Lamp lamp;
+    public static Lamp lamp;
     SeekBar seekBar;
     // Limits how often the seekBar sends commands to the wakeup light in milliseconds.
     final static int SEND_THRESHOLD = 50;
