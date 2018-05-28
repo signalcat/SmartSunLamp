@@ -26,6 +26,8 @@ public class Lamp {
     private long brightness;
     private String expDrive;
     private long remainSecs;
+    private boolean sunRiseTrigger;
+    private boolean alarmTrigger;
 
     public void setBootTime(long bootTime) {
         this.bootTime = new Date(bootTime * 1000);
@@ -103,6 +105,22 @@ public class Lamp {
     public long getRemainSecs()
     {
         return remainSecs;
+    }
+
+    public boolean isSunRiseTrigger() {
+        return sunRiseTrigger;
+    }
+
+    public void setSunRiseTrigger(boolean sunRiseTrigger) {
+        this.sunRiseTrigger = sunRiseTrigger;
+    }
+
+    public boolean isAlarmTrigger() {
+        return alarmTrigger;
+    }
+
+    public void setAlarmTrigger(boolean alarmTrigger) {
+        this.alarmTrigger = alarmTrigger;
     }
 
     public Lamp() {

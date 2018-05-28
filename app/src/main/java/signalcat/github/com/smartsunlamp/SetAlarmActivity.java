@@ -1,23 +1,31 @@
 package signalcat.github.com.smartsunlamp;
 
 import android.app.AlarmManager;
+import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import signalcat.github.com.smartsunlamp.Fragments.AlarmDialogFragment;
+
+import static signalcat.github.com.smartsunlamp.MainActivity.lamp;
 
 public class SetAlarmActivity extends AppCompatActivity{
     AlarmManager alarmManager;
@@ -27,6 +35,9 @@ public class SetAlarmActivity extends AppCompatActivity{
     Context context; //?
     PendingIntent pendingIntent;
     Spinner spinner;
+    Button btnSetAlarmOn;
+    Button btnSetAlarmOff;
+    Switch alarmSwitch;
     String itemSelected;
 
     @Override
@@ -35,12 +46,7 @@ public class SetAlarmActivity extends AppCompatActivity{
         setContentView(R.layout.activity_set_alarm);
         this.context = this; //?
 
-        Button btnSetAlarmOn = findViewById(R.id.btn_setAlarm);
-        Button btnSetAlarmOff = findViewById(R.id.btn_setAlarmOff);
-        alarmTimePicker = findViewById(R.id.timePicker);
-        tvAlarmStatus = findViewById(R.id.tv_alarmStatus);
-        spinner = findViewById(R.id.spinner_alarm);
-
+        findViews();
 
         // Create alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -64,6 +70,17 @@ public class SetAlarmActivity extends AppCompatActivity{
             }
         });
 
+        // When alarm lamp switch is on
+        alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                // Show dialog
+                if (isChecked) {
+                    DialogFragment alarmDialog = new AlarmDialogFragment();
+                    alarmDialog.show(getFragmentManager(), "selectAlarm");
+                }
+            }
+        });
 
         // Press on button to start alarm
         btnSetAlarmOn.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +101,9 @@ public class SetAlarmActivity extends AppCompatActivity{
                 // Set the alarm manager
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         pendingIntent);
+
+                // Set the lamp turns on with alarm
+                // if switch is on
             }
         });
 
@@ -104,6 +124,24 @@ public class SetAlarmActivity extends AppCompatActivity{
             }
         });
     }
+
+    public void findViews() {
+        btnSetAlarmOn = findViewById(R.id.btn_setAlarm);
+        btnSetAlarmOff = findViewById(R.id.btn_setAlarmOff);
+        alarmTimePicker = findViewById(R.id.timePicker);
+        tvAlarmStatus = findViewById(R.id.tv_alarmStatus);
+        spinner = findViewById(R.id.spinner_alarm);
+        alarmSwitch = findViewById(R.id.switch_alarm);
+    }
+
+    public void onDialogPositiveClick(DialogFragment dialog) {
+
+    }
+
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
+    }
+
 
     public void setAlarmText(String text) {
         tvAlarmStatus.setText(text);

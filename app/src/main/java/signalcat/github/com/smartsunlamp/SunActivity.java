@@ -39,7 +39,7 @@ public class SunActivity extends AppCompatActivity {
     private AsyncHttpClient client = new AsyncHttpClient();
     private TextView tvSunRiseTime;
     private TextView tvSunSetTime;
-    private Switch switch_sunRise;
+    public Switch switch_sunRise;
     private int sunRiseHH;
     private int sunRiseMM;
 
@@ -74,9 +74,11 @@ public class SunActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton switchView, boolean isChecked) {
                 if (isChecked) {
+                    lamp.setSunRiseTrigger(true);
                     sendCmd("setAlarm/" + String.valueOf(sunRiseHH) + "/" + String.valueOf(sunRiseMM));
                 } else {
                     sendCmd("clearAlarm");
+                    lamp.setSunRiseTrigger(false);
                 }
             }
         });
@@ -105,16 +107,17 @@ public class SunActivity extends AppCompatActivity {
         float angle = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String curTime = sdf.format(new Date());
+        Log.e("curTimeReal", curTime);
         //String curTime = "08:11:11";
         String[] parseResult = curTime.split(":");
         float curTimeInMin = Integer.valueOf(parseResult[0]) * 60 + Integer.valueOf(parseResult[1]);
 
         String[] sunRiseParsed = sunRiseTime.split(" ");
         String[] sunRiseParsedInMin = sunRiseParsed[0].split(":");
-//        sunRiseHH = Integer.valueOf(sunRiseParsedInMin[0]);
-//        sunRiseMM = Integer.valueOf(sunRiseParsedInMin[1]);
-        sunRiseHH = 16;
-        sunRiseMM = 30;
+        sunRiseHH = Integer.valueOf(sunRiseParsedInMin[0]);
+        sunRiseMM = Integer.valueOf(sunRiseParsedInMin[1]);
+//        sunRiseHH = 16;
+//        sunRiseMM = 30;
         float sunRiseInMin;
 
         if (sunRiseParsed[1].equals("AM")) {
@@ -139,6 +142,7 @@ public class SunActivity extends AppCompatActivity {
         if (curTimeInMin >= sunRiseInMin && curTimeInMin <= sunSetInMin) {
             // Assume the sun is moving at a fixed speed
             angle = ((curTimeInMin - sunRiseInMin) / totalTime) * 180;
+            Log.e("angle", String.valueOf(angle));
         }
         return angle;
     }
