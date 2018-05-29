@@ -70,6 +70,7 @@ public class SunActivity extends AppCompatActivity {
             }
         });
 
+        switch_sunRise.setChecked(lamp.isSunRiseTrigger());
         switch_sunRise.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton switchView, boolean isChecked) {

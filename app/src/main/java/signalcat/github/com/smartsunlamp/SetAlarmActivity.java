@@ -21,10 +21,14 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+
 import java.util.Calendar;
 
 import signalcat.github.com.smartsunlamp.Fragments.AlarmDialogFragment;
+import signalcat.github.com.smartsunlamp.httpResponseHandler.LampHttpResponseHandler;
 
+import static signalcat.github.com.smartsunlamp.MainActivity.BASE_URL;
 import static signalcat.github.com.smartsunlamp.MainActivity.lamp;
 
 public class SetAlarmActivity extends AppCompatActivity{
@@ -39,6 +43,7 @@ public class SetAlarmActivity extends AppCompatActivity{
     Button btnSetAlarmOff;
     Switch alarmSwitch;
     String itemSelected;
+    AsyncHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class SetAlarmActivity extends AppCompatActivity{
         this.context = this; //?
 
         findViews();
+        client = new AsyncHttpClient();
 
         // Create alarm manager
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -74,11 +80,13 @@ public class SetAlarmActivity extends AppCompatActivity{
         alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                // Show dialog
-                if (isChecked) {
+                // Show dialog if sunrise trigger
+                if (isChecked && lamp.isSunRiseTrigger()) {
                     DialogFragment alarmDialog = new AlarmDialogFragment();
                     alarmDialog.show(getFragmentManager(), "selectAlarm");
                 }
+                // Otherwise enable alarmTrigger
+                lamp.setAlarmTrigger(true);
             }
         });
 
@@ -102,8 +110,12 @@ public class SetAlarmActivity extends AppCompatActivity{
                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         pendingIntent);
 
-                // Set the lamp turns on with alarm
-                // if switch is on
+                if (lamp.isAlarmTrigger()) {
+                    Log.e("hour",String.valueOf(alarmTimePicker.getCurrentHour()));
+                    Log.e( "minute",String.valueOf(alarmTimePicker.getCurrentMinute()));
+                    sendCmd("/setAlarm/" + String.valueOf(alarmTimePicker.getCurrentHour()) + "/" + alarmTimePicker.getCurrentMinute());
+                }
+
             }
         });
 
@@ -134,15 +146,6 @@ public class SetAlarmActivity extends AppCompatActivity{
         alarmSwitch = findViewById(R.id.switch_alarm);
     }
 
-    public void onDialogPositiveClick(DialogFragment dialog) {
-
-    }
-
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-    }
-
-
     public void setAlarmText(String text) {
         tvAlarmStatus.setText(text);
     }
@@ -169,4 +172,18 @@ public class SetAlarmActivity extends AppCompatActivity{
         }
         return "Alarm set to: " + hour + ":" + min;
     }
+
+    /**
+     * This function send out commands through http request
+     * @param cmd different commands to control the lamp
+     */
+    public void sendCmd(String cmd, Runnable runnable){
+        LampHttpResponseHandler handler = new LampHttpResponseHandler(lamp, runnable);
+        client.get(BASE_URL + cmd, handler);
+    }
+
+    public void sendCmd(String cmd){
+        sendCmd(cmd, null);
+    }
+
 }

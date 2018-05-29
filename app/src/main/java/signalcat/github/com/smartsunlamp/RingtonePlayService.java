@@ -120,19 +120,19 @@ public class RingtonePlayService extends Service {
         // Set up an intent goes to the setAlarm window
         Intent intent_toSetAlarm = new Intent(this.getApplicationContext(), SetAlarmActivity.class);
 
-        // Turn on the light when the alarm goes off
-        client= new AsyncHttpClient();
-        client.get("http://192.168.1.12/on", new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.e("Alarm request:", "Success!");
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e("Alarm request:", "Failed!");
-            }
-        });
+//        // Turn on the light when the alarm goes off
+//        client= new AsyncHttpClient();
+//        client.get("http://192.168.1.12/on", new JsonHttpResponseHandler(){
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                Log.e("Alarm request:", "Success!");
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                Log.e("Alarm request:", "Failed!");
+//            }
+//        });
 
         // Set up a pending intent to go back to alarm screen
         PendingIntent pendingIntent_setAlarm = PendingIntent

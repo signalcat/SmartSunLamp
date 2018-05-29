@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import static signalcat.github.com.smartsunlamp.MainActivity.lamp;
+
 /**
  * Created by hezhang on 5/28/18.
  */
@@ -20,13 +22,14 @@ public class AlarmDialogFragment extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        lamp.setSunRiseTrigger(false);
+                        lamp.setAlarmTrigger(true);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        // TODO: enable multiple alarms?
                     }
                 });
         return builder.create();
